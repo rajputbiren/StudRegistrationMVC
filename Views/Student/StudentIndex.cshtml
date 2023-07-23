@@ -1,0 +1,56 @@
+﻿@model List<Student>
+@{
+    ViewBag.Title = "StudentIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>StudentIndex</h2>
+<a href="/Student/Save?StdId=0">Add New</a>
+<table border="1">
+    <thead>
+        <tr>
+            <td>
+                Id
+            </td>
+            <td>
+                Name
+            </td>
+            <td>
+                Email
+            </td>
+            <td>
+                Phone
+            </td>
+            <td>
+                City
+            </td>
+            <td>
+                Action
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var std in Model) {
+        <tr>
+            <td>
+                @std.StudentId
+            </td>
+            <td>
+                @std.StudentName
+            </td>
+            <td>
+                @std.Email
+            </td>
+            <td>
+                @std.Phone
+            </td>
+            @*<td>
+                @std.City
+            </td>*@
+            <td>
+                <a href="/Student/Save?StdId=@std.StudentId">Edit</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

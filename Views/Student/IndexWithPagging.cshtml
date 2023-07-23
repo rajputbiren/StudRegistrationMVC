@@ -1,0 +1,93 @@
+﻿@model PagedList.IPagedList<Student>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "IndexWithPagging";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index With Pagging</h2>
+
+<a href="/Student/Save?StdId=0">Add New</a>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Search Name: @Html.TextBox("Search_String", ViewBag.CurrentFilterValue as string)
+        <input type="submit" value="Find" />
+    </p>
+}
+
+<table border="1" class="table-condensed">
+    <thead>
+        @*<tr>
+            <td>
+                Id
+            </td>
+            <td>
+                Name
+            </td>
+            <td>
+                Email
+            </td>
+            <td>
+                Phone
+            </td>
+            <td>
+                City
+            </td>
+            <td>
+                Action
+            </td>
+        </tr>*@
+        <tr>
+            <th>
+                @Html.ActionLink("Id", "IndexWithPagging", new { Sorting_Order = ViewBag.SortingId, CurrentFilter_Value = ViewBag.CurrentFilterValue })
+            </th>
+            <th>
+                @Html.ActionLink("Name", "IndexWithPagging", new { Sorting_Order = ViewBag.SortingName , CurrentFilter_Value = ViewBag.CurrentFilterValue })
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Phone
+            </th>
+            <th>
+                City
+            </th>
+            <th>
+                Action
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var std in Model)
+        {
+            <tr>
+                <td>
+                    @std.StudentId
+                </td>
+                <td>
+                    @std.StudentName
+                </td>
+                <td>
+                    @std.Email
+                </td>
+                <td>
+                    @std.Phone
+                </td>
+                <td>
+                    @*@std.City*@
+                </td>
+                <td>
+                    <a href="/Student/Save?StdId=@std.StudentId">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 :Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, Page_No => Url.Action("IndexWithPagging", new { Page_No, Sorting_Order = ViewBag.CurrentSortOrder,CurrentFilter_Value= ViewBag.CurrentFilterValue }))

@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "IndexWithJQGrid";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<style type="text/css">
+        .ui-jqgrid .ui-widget-header {
+            background-color: #336699;
+            background-image: none;
+            color: white;
+        }
+
+        .ui-jqgrid .ui-jqgrid-labels th.ui-th-column {
+            background-color: #FFCC66;
+            background-image: none;
+            color: #336699;
+            height: 30px;
+            font-weight: bold;
+        }
+    </style>*@
+
+
+
+<h2>IndexWithJQGrid</h2>
+<div>
+    <table id="myGrid"></table>
+    <div id="myPager"></div>
+</div>
+
+@section scripts {
+    @*<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/base/jquery-ui.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/jqgrid/4.6.0/i18n/grid.locale-en.js"></script>
+    <script src="https://cdn.jsdelivr.net/jqgrid/4.6.0/jquery.jqGrid.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/jqgrid/4.6.0/css/ui.jqgrid.css" rel="stylesheet" />*@
+
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.10.0.js"></script>
+    <script src="~/Scripts/i18n/grid.locale-en.js"></script>
+    <script src="~/Scripts/jquery.jqGrid.min.js"></script>
+    @*<script src="~/Scripts/script.js"></script>*@
+
+    <script type="text/javascript">
+        $(function () {
+            $("#myGrid").jqGrid({
+                url: '@Url.Action("GetStudentDetails")',
+                datatype: 'json',
+                contentType: "application/json; charset-utf-8",
+                mtype: 'get',
+                colNames: ['ID', 'STUDENT NAME', 'EMAIL', 'PHONE', 'CITY'],
+                colModel: [
+                    { key: true, name: 'StudentId', index: 'StudentId', width: '35px', search: true, stype: 'text', searchoptions: { sopt: ['eq', 'ne'] }  },
+                    { key: false, name: 'StudentName', index: 'StudentName', width: '160px', search: true, stype: 'text', searchoptions: { sopt: ['eq', 'ne'] } },
+                    { key: false, name: 'Email', index: 'Email', search: true, stype: 'text', searchoptions: { sopt: ['eq', 'ne'] } },
+                    { key: false, name: 'Phone', index: 'Phone', search: true, stype: 'text', searchoptions: { sopt: ['eq', 'ne'] } },
+                    { key: false, name: 'City', index: 'City', search: true, stype: 'text', searchoptions: { sopt: ['eq', 'ne'] } }
+                ],
+                //data: JSON.parse(rows),
+                page: 1,
+                pager: $('#myPager'),
+                rowNum: 5,
+                sortname: 'StudentId',
+                viewrecords: true,
+                gridview: true,
+                autoencode: false,
+                sortorder: 'desc',
+                loadonce: true,
+                rowList: [5, 10, 20, 50],
+                width: 600,
+                height: 110,
+                viewrecords: true,
+                caption: 'Students details in JQ Grid',
+
+            }).navGrid('#myGrid', {
+                edit: true, add: true, del: true, search: true,
+                searchtext: "Search Student", refresh: true
+            });
+
+        });
+        //$("#myGrid").jqGrid('navGrid', '#myPager', { edit: true, add: true, del: false, search: true });
+    </script>
+}
+

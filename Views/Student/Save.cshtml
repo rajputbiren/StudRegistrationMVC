@@ -1,0 +1,261 @@
+﻿@model StudRegistrationMVC.Models.StudentViewModel
+@using System.Globalization;
+@{
+    ViewBag.Title = "Save";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<string> Gender = new List<string>() { "Male", "Female" };
+
+
+}
+
+<h2>Save</h2>
+@using (Html.BeginForm("Save", "Student", FormMethod.Post, new { id = "StudentForm" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Student</h4>
+        <hr />
+        @Html.HiddenFor(m => m.StudentId)
+        @*@Html.HiddenFor(m => m.City)
+            @Html.HiddenFor(m => m.Address)
+            @Html.HiddenFor(m => m.DOB)*@
+        <div class="form-group">
+            @Html.LabelFor(m => m.StudentName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.StudentName, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.StudentName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Phone, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Phone, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Phone)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.CountryId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.TextBoxFor(m => m.CountryId, "", new { @class = "form-control" })*@
+                @*@Html.DropDownList("CountryId", new SelectList(ViewBag.Country, "CountryId", "CountryName"),"--Select Country--")*@
+                @*@Html.DropDownList("CountryId", Enumerable.Empty<SelectListItem>(), "--Select Country--")*@
+                @*@Html.DropDownListFor(model => model.CountryId, new SelectList(ViewBag.Country as System.Collections.IEnumerable, "CountryCode", "CountryName", Model.CountryCode), "--Select Country--", new { id = "ddlCountry", @class = "large" })*@
+                @Html.DropDownListFor(model => model.CountryId, new SelectList(ViewBag.Country as System.Collections.IEnumerable, "CountryId", "CountryName", Model.CountryId), "--Select Country--")
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.StateId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.DropDownList("StateId", new SelectList(ViewBag.State, "StateId", "StateName"))*@
+                @*@Html.DropDownList("StateId", Enumerable.Empty<SelectListItem>(), "--Select State--")*@
+                @Html.DropDownListFor(model => model.StateId, new SelectList(Enumerable.Empty<SelectListItem>(), "StateId", "StateName"), "--Select State--")
+
+            </div>
+
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.CityId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.DropDownList("CityId", new SelectList(ViewBag.City, "CityId", "CityName"))*@
+                @*@Html.DropDownList("CityId", Enumerable.Empty<SelectListItem>(), "--Select City--")*@
+                @Html.DropDownListFor(model => model.CityId, new SelectList(Enumerable.Empty<SelectListItem>(), "CityId", "CityName"), "--Select City--")
+
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Address, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Address, "", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.DOB, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@if (Model.DOB == default(DateTime))*@
+                @*@if (Model.DOB == "")
+        {
+            @Html.TextBoxFor(m => m.DOB, "", new { @Value = "", @class = "form-control datepicker" })
+        }
+        else
+        {
+            @Html.TextBoxFor(m => m.DOB, "", new { @Value = Convert.ToDateTime(Model.DOB).ToString("dd/MM/yyyy"), @class = "form-control datepicker" })
+        }
+        @Html.ValidationMessageFor(m => m.DOB)*@
+                @if (Model.DOB == null)
+                {
+                    @Html.TextBoxFor(m => m.DOB, new { @Value = "", @class = "form-control datepicker" })
+                }
+                else
+                {
+                    @Html.TextBoxFor(m => m.DOB, new { @Value = Convert.ToDateTime(Model.DOB).ToString("dd/MM/yyyy"), @class = "form-control datepicker" })
+                }
+                @Html.ValidationMessageFor(m => m.DOB)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Gender, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Gender", new SelectList(Gender,Model.Gender), "Select Gender")
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.IsActive, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.CheckBoxFor(m => m.IsActive)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <input id="btnSubmit" type="submit" value="Save" class="btn btn-defaul" />
+            </div>
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "StudentIndex")
+</div>
+
+<link href="~/Content/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            debugger;
+            //$.get("GetCountry", {}, function (data) {
+            //    $("#CountryId").empty();
+            //    $('#CountryId').append("<option>--Select Country--</option>");
+            //    $.each(data, function (index, row) {
+            //        if ($('#HdnCountryId').val() == row.CountryId) {
+            //            $("#CountryId").append("<option value='" + row.CountryId + "'>" + row.CountryName + "</option>")
+            //        } else {
+            //            $('#CountryId').append("<option value=" + row.CountryId + " selected='selected' >" + row.CountryName + "</option>");
+            //        }
+            //    });
+            //});
+        //For Edit
+        var id = '@Model.StudentId';
+        if (id != 0) {
+            var Country = '@Model.CountryId';
+            var State = '@Model.StateId';
+            var City = '@Model.CityId';
+            $("#CountryId").val(Country);
+            //LoadState(Country);
+            //LoadCity(State);
+            setTimeout(LoadState(Country), 4000);
+            //debugger;
+            //$("#StateId").val(State);
+            setTimeout(LoadCity(State), 4000);
+            //debugger;
+            //$("#CityId").val(City);
+
+        }
+
+
+            $("#btnSubmit").click(function () {
+                $("#StudentForm").submit();
+            });
+
+        $(document).ready(function () {
+            $(".datepicker").datepicker({
+                dateFormat: "dd-mm-yy",
+                changemonth: true,
+                changeyear: true
+            });
+            $.validator.methods.date = function (value, element) {
+                var dateL = value.split(" ");
+                var date = dateL[0].split("-");
+                var hour = dateL.length > 1 ? dateL[1].split("-") : "";
+                return this.optional(element) || !/Invalid|NaN/.test(dateL.length > 1 ? new Date(date[2], date[1], date[0]).toString() : new Date(date[2], date[1], date[0]).toString());
+            }
+        });
+        //$(function () {
+        //    $.validator.methods.date = function (value, element) {
+        //        debugger;
+        //        if ($.browser.webkit) {
+        //            var d = new Date();
+        //            return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+        //        }
+        //        else {
+        //            return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+        //        }
+        //    };
+        //});
+
+
+        $("#CountryId").change(function () {
+            LoadState($("#CountryId").val());
+            return false;
+        })
+
+        $('#StateId').change(function () {
+            LoadCity($('#StateId').val());
+            return false;
+        })
+
+        function LoadState(CountryId) {
+            $.ajax({
+                type: "POST",
+                url: "GetStates",
+                datatype: "json",
+                data: { CountryId: $("#CountryId").val() },
+                //contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $('#StateId').empty();
+                    $('#StateId').append("<option>--Select State--</option>");
+                    $.each(data, function (index, row) {
+                        if (row.StateId == '@Model.StateId') {
+                            $('#StateId').append("<option value=" + row.StateId + " selected='selected' >" + row.StateName + "</option>");
+                        } else {
+                            $('#StateId').append("<option value=" + row.StateId + ">" + row.StateName + "</option>");
+                        }
+                    })
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve states.' + ex);
+                }
+            });
+            if ('@Model.StudentId' != 0 || '@Model.CountryId' != "") {
+                var Stat = '@Model.StateId';
+                $("#StateId").val(Stat);
+            }
+        }
+
+        function LoadCity(StateId) {
+            $("#CityId").empty();
+            $('#CityId').append("<option>--Select City--</option>");
+            $.getJSON('GetCities', { StateId: StateId }, function (data) {
+                $.each(data, function (index, row) {
+                    if (row.CityId == '@Model.CityId') {
+                        $('#CityId').append("<option value=" + row.CityId + " selected='selected' >" + row.CityName + "</option>");
+
+                    } else {
+                        $('#CityId').append('<option value=' + this.CityId + '>' + this.CityName + '</option>');
+                    }
+                });
+            }).fail(function () {
+                alert('Cannot retrieve cities!');
+            });
+            if ('@Model.StudentId' != 0 || '@Model.StateId' != "") {
+                var City = '@Model.CityId';
+                $("#CityId").val(City);
+            }
+        }
+
+    });
+
+
+    </script>
+
+
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}
